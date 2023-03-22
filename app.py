@@ -19,9 +19,9 @@ def menu_bienvenida():
     ''')
     
     print('1) Tablero especial\n2) Tablero basico')
-    op = int(input('Elige un tablero para empezar:'))
+    op = int(input('Elige un tablero para empezar: '))
     while op < 1 or op > 2:
-        op = input('Elige un tablero para empezar:')
+        op = int(input('Elige un tablero para empezar: '))
 
     if op == 1:
         return tablero.TableroEspecial('Potenciar')
