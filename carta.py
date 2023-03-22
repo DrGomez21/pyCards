@@ -77,20 +77,3 @@ class CartaMagica(Carta):
         print('-' * 6)
         print(f'PS: {self.ps_actual}\tCambio: {self.costo_perder} M')
         print('=' * 10)
-
-class CartaApoyo(Carta):
-    def __init__(self, nombre, descripcion):
-        super().__init__(nombre, descripcion)
-    
-    def lanzar(self):
-        print('Lanzando la carta de apoyo ', self.nombre)
-    
-    def retirar(self, magia):
-        print(f'La carta de apoyo {self.nombre} fue retirada')
-
-    def ver_informacion(self):
-        print('=' * 10)
-        print('Carta: ', self.nombre)
-        print(f'Descripcion: {self.descripcion}')
-        print('=' * 10)
-
