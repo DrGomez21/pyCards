@@ -8,7 +8,7 @@ class Jugador():
         self.nombre = nombre
         self.mazo = mazo
         self.magia = magia
-        self.carta_activa = mazo[0] # ¨Por defecto la primera carta es la carta activa
+        self.carta_activa = mazo[0] # Por defecto la primera carta es la carta activa
 
     # Mostrar el mazo del jugador.
     def mostrar_mazo(self):
@@ -36,7 +36,8 @@ class Jugador():
         # Que pasa con el Rival
         rival.carta_activa.ps_actual -= self.carta_activa.ataque.obtenerPuntoAtaque() + tablero.potenciar()
         
-        if rival.carta_activa.ps_actual < 0:
+        if rival.carta_activa.ps_actual <= 0:
+            rival.magia = rival.carta_activa.retirar(magia)
             rival.carta_activa.ps_actual = 0
 
     def ver_datos_jugador(self):
