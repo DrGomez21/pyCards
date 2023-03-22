@@ -12,6 +12,7 @@ class Juego():
         self.player2 = player2
 
     def __validar_estado(self, jugador):
+        '''Corrobora si existe algun jugador derrotado'''
         if jugador.magia == 0:
             return True
         for card in jugador.mazo:

@@ -32,12 +32,12 @@ class Jugador():
 
     def jugador_atacar(self, rival, tablero):
         # Que pasa conmigo.
-        magia = self.carta_activa.atacar(self.magia)
+        self.magia = self.carta_activa.atacar(self.magia)
         # Que pasa con el Rival
         rival.carta_activa.ps_actual -= self.carta_activa.ataque.obtenerPuntoAtaque() + tablero.potenciar()
         
         if rival.carta_activa.ps_actual <= 0:
-            rival.magia = rival.carta_activa.retirar(magia)
+            rival.magia = rival.carta_activa.retirar(rival.magia)
             rival.carta_activa.ps_actual = 0
 
     def ver_datos_jugador(self):

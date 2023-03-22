@@ -32,7 +32,7 @@ tab = menu_bienvenida()
 
 player1 = jugador.Jugador('Diego', [
     c.CartaBasica('Messi', 'Mundial', 10, 4, atq.Derribo()),
-    c.CartaMagica('CR7', 'SIUUU', 10, 4, atq.FuerzaMagica())
+    c.CartaMagica('CR7', 'SIUUU', 10, 4, atq.FuerzaMagica(), 8)
 ], 10)
 
 player2 = jugador.Jugador('Rival', [

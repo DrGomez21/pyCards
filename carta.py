@@ -34,7 +34,7 @@ class CartaBasica(Carta):
 
     def atacar(self, magia):
         print(f'La carta basica {self.nombre} ataca con {self.ataque}')
-        return magia - 0
+        return magia - 2
 
     def ver_informacion(self):
         print('=' * 10)
@@ -47,12 +47,13 @@ class CartaBasica(Carta):
 
 class CartaMagica(Carta):
     
-    def __init__(self, nombre, descripcion, ps, costo_perder, ataque):
+    def __init__(self, nombre, descripcion, ps, costo_perder, ataque, reserva_magica):
         super().__init__(nombre, descripcion)
         self.ps = ps
         self.costo_perder = costo_perder
         self.ps_actual = ps
         self.ataque = ataque
+        self.reserva_magica = reserva_magica
     
     def lanzar(self):
         print('Lanzando la carta magica ', self.nombre)
@@ -63,6 +64,9 @@ class CartaMagica(Carta):
 
     def atacar(self, magia):
         print(f'La carta magica {self.nombre} ataca con {self.ataque}')
+        if self.reserva_magica > 0:
+            self.reserva_magica - self.costo_perder
+            return magia
         return magia - self.costo_perder    # Atacar tiene un costo de magia del jugador.
     
     def jugar_atq_especial(self, magia):
