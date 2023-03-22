@@ -58,7 +58,7 @@ class CartaMagica(Carta):
         print('Lanzando la carta magica ', self.nombre)
     
     def retirar(self, magia):
-        print(f'La carta mágica {self.nombre} fue retirada')
+        print(f'La carta magica {self.nombre} fue retirada')
         return magia - self.costo_perder
 
     def atacar(self, magia):
