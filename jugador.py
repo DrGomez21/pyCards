@@ -34,7 +34,7 @@ class Jugador():
         # Que pasa conmigo.
         self.magia = self.carta_activa.atacar(self.magia)
         # Que pasa con el Rival
-        rival.carta_activa.ps_actual -= self.carta_activa.ataque.obtenerPuntoAtaque() + tablero.potenciar()
+        rival.carta_activa.ps_actual -= self.carta_activa.ataque.obtener_puntos_ataque() + tablero.potenciar()
         
         if rival.carta_activa.ps_actual <= 0:
             rival.magia = rival.carta_activa.retirar(rival.magia)

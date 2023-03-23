@@ -4,7 +4,7 @@ import abc
 class Ataque(metaclass=abc.ABCMeta):
     
     @abc.abstractmethod
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         pass
     
     @abc.abstractmethod
@@ -13,7 +13,7 @@ class Ataque(metaclass=abc.ABCMeta):
 
 class Derribo(Ataque):
 
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         return 3
 
     def __str__(self):
@@ -21,7 +21,7 @@ class Derribo(Ataque):
 
 class FuerzaPsiquica(Ataque):
 
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         return 5
 
     def __str__(self):
@@ -29,7 +29,7 @@ class FuerzaPsiquica(Ataque):
 
 class CartaDelJuicio(Ataque):
 
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         return 8
 
     def __str__(self):
@@ -37,7 +37,7 @@ class CartaDelJuicio(Ataque):
 
 class MagicoDerribo(Ataque):
 
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         return 4
 
     def __str__(self):
@@ -45,7 +45,7 @@ class MagicoDerribo(Ataque):
 
 class FuerzaMagica(Ataque):
 
-    def obtenerPuntoAtaque(self):
+    def obtener_puntos_ataque(self):
         return 5
 
     def __str__(self):

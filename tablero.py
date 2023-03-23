@@ -14,27 +14,29 @@ class Tablero(metaclass=abc.ABCMeta):
         return '{} por {}'.format(self.habilidad, self.potenciador)
 
 class TableroBasico(Tablero):
-    def __init__(self, habilidad):
+    def __init__(self, habilidad, potencia):
         super().__init__(habilidad)
-    
+        self.potencia = potencia
+
     def potenciar(self):
         ''' Valor por el que se suma la fuerza de un ataque como efecto del tablero'''
-        return 0    # No potencia ningun ataque
+        return self.potencia    # No potencia ningun ataque
 
     def __str__(self):
         return '{} por {}'.format(self.habilidad, self.potenciar())
 
 class TableroEspecial(Tablero):
-    def __init__(self, habilidad):
+    def __init__(self, habilidad, potencia):
         super().__init__(habilidad)
-    
+        self.potencia = potencia
+
     def potenciar(self):
         ''' Valor por el que se suma la fuerza de un ataque como efecto del tablero'''
         if self.lanzar_moneda() % 2 == 0:
             print('El tablero potencia este ataque')
-            return 3
+            return self.potencia
         else:
-            return 1
+            return self.potencia - 2
 
     def lanzar_moneda(self):
         return random.randint(0, 10)

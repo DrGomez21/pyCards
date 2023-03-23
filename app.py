@@ -24,9 +24,9 @@ def menu_bienvenida():
         op = int(input('Elige un tablero para empezar: '))
 
     if op == 1:
-        return tablero.TableroEspecial('Potenciar')
+        return tablero.TableroEspecial('Potenciar', 0)
     else:
-        return tablero.TableroBasico('Potenciar')
+        return tablero.TableroBasico('Potenciar', 3)
 
 tab = menu_bienvenida()
 

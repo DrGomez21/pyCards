@@ -7,12 +7,15 @@ class Carta(metaclass=abc.ABCMeta):
         self.nombre = nombre
         self.descripcion = descripcion
 
+    @abc.abstractmethod
     def lanzar(self):
         pass
 
+    @abc.abstractmethod
     def retirar(self):
         pass
 
+    @abc.abstractmethod
     def ver_informacion(self):
         pass
 
@@ -40,7 +43,7 @@ class CartaBasica(Carta):
         print('=' * 10)
         print('Carta Basica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
-        print(f'Ataque: {self.ataque} danho: {self.ataque.obtenerPuntoAtaque()}')
+        print(f'Ataque: {self.ataque} danho: {self.ataque.obtener_puntos_ataque()}')
         print('-' * 6)
         print(f'PS: {self.ps_actual}\tCosto: {self.costo_perder} M')
         print('=' * 10)        
@@ -66,18 +69,18 @@ class CartaMagica(Carta):
         print(f'La carta magica {self.nombre} ataca con {self.ataque}')
         if self.reserva_magica > 0:
             self.reserva_magica - self.costo_perder
+            self.jugar_atq_especial()
             return magia
         return magia - self.costo_perder    # Atacar tiene un costo de magia del jugador.
     
-    def jugar_atq_especial(self, magia):
-        print(f'{self.nombre} juega su ataque especial de magia')
-        return magia - 4
+    def jugar_atq_especial(self):
+        print(f'>> {self.nombre} juega su reserva especial de magia')
 
     def ver_informacion(self):
         print('=' * 10)
         print('Carta Magica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
-        print(f'Ataque: {self.ataque} danho: {self.ataque.obtenerPuntoAtaque()}')
+        print(f'Ataque: {self.ataque} danho: {self.ataque.obtener_puntos_ataque()}')
         print('-' * 6)
         print(f'PS: {self.ps_actual}\tCambio: {self.costo_perder} M')
         print('=' * 10)
