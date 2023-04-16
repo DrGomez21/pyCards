@@ -10,6 +10,7 @@ class Carta(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def lanzar(self):
+        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
         pass
 
     @abc.abstractmethod
@@ -31,17 +32,25 @@ class CartaBasica(Carta):
         self.ataque = ataque
 
     def lanzar(self):
+        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
         print('Lanzando la carta basica ', self.nombre)
     
     def retirar(self, magia):
+        '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
+
         print(f'La carta basica {self.nombre} fue retirada')
         return magia - self.costo_perder
 
     def atacar(self, magia):
+        '''Se indica que ataque fue utilizado en el turno,
+        Los ataques basicos tienen un costo de 2 puntos de magia'''
+
         print(f'La carta basica {self.nombre} ataca con {self.ataque}')
         return magia - 2
 
     def ver_informacion(self):
+        '''Se muestra en pantalla la informacion de la carta'''
+        
         print('=' * 10)
         print('Carta Basica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
@@ -71,7 +80,7 @@ class CartaMagica(Carta):
         return magia - self.costo_perder
 
     def atacar(self, magia):
-        '''Las cartas pueden realizar ataques, 
+        '''Se indica el ataque utilizado por la carta en ese turno, 
         en caso que una carta cuente con una reserva de magia, esta se utilizara
         antes que los puntos de magia reales de la carta en cuestion'''
 
@@ -88,7 +97,7 @@ class CartaMagica(Carta):
 
     def ver_informacion(self):
         '''Se muestra en pantalla la informacion de la carta'''
-        
+
         print('=' * 10)
         print('Carta Magica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
