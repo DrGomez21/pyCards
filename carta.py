@@ -2,7 +2,8 @@ import abc
 import ataques.ataque as atq
 
 class Carta(metaclass=abc.ABCMeta):
-    
+    '''Abstraccion de una carta en el juego'''
+
     def __init__(self, nombre, descripcion):
         self.nombre = nombre
         self.descripcion = descripcion
@@ -20,6 +21,7 @@ class Carta(metaclass=abc.ABCMeta):
         pass
 
 class CartaBasica(Carta):
+    '''Abstraccion del elemento Carta Basica en el juego'''
     
     def __init__(self, nombre, descripcion, ps, costo_perder, ataque):
         super().__init__(nombre, descripcion)
@@ -49,6 +51,7 @@ class CartaBasica(Carta):
         print('=' * 10)        
 
 class CartaMagica(Carta):
+    '''Abstraccion del elemento Carta Magica en el juego'''
     
     def __init__(self, nombre, descripcion, ps, costo_perder, ataque, reserva_magica):
         super().__init__(nombre, descripcion)
@@ -59,13 +62,19 @@ class CartaMagica(Carta):
         self.reserva_magica = reserva_magica
     
     def lanzar(self):
+        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
         print('Lanzando la carta magica ', self.nombre)
     
     def retirar(self, magia):
+        '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
         print(f'La carta magica {self.nombre} fue retirada')
         return magia - self.costo_perder
 
     def atacar(self, magia):
+        '''Las cartas pueden realizar ataques, 
+        en caso que una carta cuente con una reserva de magia, esta se utilizara
+        antes que los puntos de magia reales de la carta en cuestion'''
+
         print(f'La carta magica {self.nombre} ataca con {self.ataque}')
         if self.reserva_magica > 0:
             self.reserva_magica - self.costo_perder
@@ -74,9 +83,12 @@ class CartaMagica(Carta):
         return magia - self.costo_perder    # Atacar tiene un costo de magia del jugador.
     
     def jugar_atq_especial(self):
+        '''Se indica el uso de la resera de magia con la que cuenta la carta'''
         print(f'>> {self.nombre} juega su reserva especial de magia')
 
     def ver_informacion(self):
+        '''Se muestra en pantalla la informacion de la carta'''
+        
         print('=' * 10)
         print('Carta Magica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
