@@ -33,7 +33,7 @@ class TableroEspecial(Tablero):
     def potenciar(self):
         ''' Valor por el que se suma la fuerza de un ataque como efecto del tablero'''
         if self.lanzar_moneda() % 2 == 0:
-            print('El tablero potencia este ataque')
+            print('   > El tablero potencia este ataque')
             return self.potencia
         else:
             return self.potencia - 2
