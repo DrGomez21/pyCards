@@ -23,6 +23,8 @@ def menu_bienvenida():
     while op < 1 or op > 2:
         op = int(input('Elige un tablero para empezar: '))
 
+        # TODO: Agregar una Excepcion por ingresar una letra en lugar de un número.
+
     if op == 1:
         return tablero.TableroEspecial('Potenciar', 0)
     else:
