@@ -34,6 +34,7 @@ class CartaBasica(Carta):
     def lanzar(self):
         '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
         print('Lanzando la carta basica ', self.nombre)
+        print('--------------\n')
     
     def retirar(self, magia):
         '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
@@ -73,10 +74,13 @@ class CartaMagica(Carta):
     def lanzar(self):
         '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
         print('Lanzando la carta magica ', self.nombre)
+        print('--------------\n')
     
     def retirar(self, magia):
         '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
+        print('--------')
         print(f'La carta magica {self.nombre} fue retirada')
+        print('--------')
         return magia - self.costo_perder
 
     def atacar(self, magia):
@@ -87,21 +91,20 @@ class CartaMagica(Carta):
         print(f'La carta magica {self.nombre} ataca con {self.ataque}')
         if self.reserva_magica > 0:
             self.reserva_magica - self.costo_perder
-            self.jugar_atq_especial()
+            self.__jugar_atq_especial()
             return magia
         return magia - self.costo_perder    # Atacar tiene un costo de magia del jugador.
     
-    def jugar_atq_especial(self):
+    def __jugar_atq_especial(self):
         '''Se indica el uso de la resera de magia con la que cuenta la carta'''
-        print(f'>> {self.nombre} juega su reserva especial de magia')
+        print(f'   >> {self.nombre} juega su reserva especial de magia')
 
     def ver_informacion(self):
         '''Se muestra en pantalla la informacion de la carta'''
-
         print('=' * 10)
         print('Carta Magica: ', self.nombre)
         print(f'Descripcion: {self.descripcion}')
         print(f'Ataque: {self.ataque} danho: {self.ataque.obtener_puntos_ataque()}')
         print('-' * 6)
-        print(f'PS: {self.ps_actual}\tCambio: {self.costo_perder} M')
+        print(f'PS: {self.ps_actual}\tCosto: {self.costo_perder} M')
         print('=' * 10)
