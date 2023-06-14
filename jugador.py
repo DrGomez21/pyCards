@@ -1,6 +1,5 @@
-from carta import Carta
-import ataques.ataque
-from os import system
+import carta as c
+from ataques import attack as atq
 
 class Jugador():
 
@@ -9,48 +8,52 @@ class Jugador():
         self.mazo = mazo
         self.magia = magia
         self.carta_activa = mazo[0] # Por defecto la primera carta es la carta activa
+        self.curaciones = 4
+        self.botiquin = c.CartaAmbulancia()
 
-    # Mostrar el mazo del jugador.
-    def mostrar_mazo(self):
-        '''Esta función imprimie en pantalla las cartas del jugador'''
-        print('----------')
-        print(f'Mazo de {self.nombre} | Magia: {self.magia}')
-        i = 0   # Contador de numero de carta.
-        for c in self.mazo:
-            print(f'{i})')
-            i += 1
-            if c.ps_actual > 0:
-                c.ver_informacion()
-        print('----------')
-
-    # Al escoger una carta, el jugador lanza esa misma al tablero.
     def escoger_carta(self):
-        '''Este metodo permite al usuario seleccionar una carta
-        de su mazo para lanzarla, valida la elección y limpia la terminal'''
+        '''Este metodo permite al usuario seleccionar una carta de su mazo para lanzarla.'''
         index = int(input('Elige tu carta: '))
-        # validamos la entrada.
         while index < 0 or index >= len(self.mazo):
+            print('Esa carta no esta disponible ahora')
             index = int(input('Elige tu carta: '))
         
-        # TODO: Eliminar del array de mazo las cartas que ya no tienen PS
         self.carta_activa = self.mazo[index]
-        system('cls')   # Limpiar la pantalla del terminal.
-        self.carta_activa.lanzar()
 
-    def jugador_atacar(self, rival, tablero):
+    def lanzar_carta(self):
+        '''Se indica la carta con la que vas a jugar ese turno.'''
+        return f'{self.nombre} lanza la {self.carta_activa.__str__()} {self.carta_activa.nombre}'
+
+    def retirar_carta(self):
+        '''Cuando una carta es derrotada
+        el jugador pierde una cantidad de magia'''
+        self.magia -= self.carta_activa.costo_perder
+        # self.__actualizar_mazo()
+
+    def __actualizar_mazo(self):
+        '''Esta funcion actualiza las cartas del mazo,
+        retirando las cartas debilitadas'''
+        for c in self.mazo:
+            if c.ps_actual <= 0:
+                self.mazo.remove(c)
+                # Devuelve la posicion del elemento.
+                # return self.mazo.index(c)
+
+    def curar_carta(self):
+        if self.curaciones > 0:
+            if  self.carta_activa.ps_actual == self.carta_activa.ps:
+                return 'No puedes curar esta carta'
+            self.curaciones -= 1
+            return self.botiquin.sanar(self.carta_activa)
+        else:
+            return 'Ya no te quedan curaciones :('
+
+    def jugador_atacar(self, rival):
         # Que pasa conmigo.
-        self.magia = self.carta_activa.atacar(self.magia)   # Se reducen mis puntos de Magia
-        # Que pasa con el Rival
-        rival.carta_activa.ps_actual -= self.carta_activa.ataque.obtener_puntos_ataque() + tablero.potenciar()
+        # self.magia = self.carta_activa.atacar(self.magia) ---> Se reducen mis puntos de Magia
+        
+        self.carta_activa.nuevo_atacar(carta_que_recibe=rival.carta_activa)
         
         if rival.carta_activa.ps_actual <= 0:
-            rival.magia = rival.carta_activa.retirar(rival.magia)
+            self.retirar_carta()
             rival.carta_activa.ps_actual = 0
-
-    def ver_datos_jugador(self):
-        print('==================================')
-        print(f'======NOMBRE: {self.nombre} ======')
-        print(f'======MAGIA: {self.magia} ======')
-        print(f'======CARTA: {self.carta_activa.nombre} ======')
-        print('==================================')
-        

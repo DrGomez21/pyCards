@@ -1,0 +1,19 @@
+Se presenta el videojuego 'PyCards', un juego sencillo de batalla entre cartas.
+
+#### Consideraciones sobre el estado del proyecto ####
+Esta versión del juego se centra en presentar como se desarrollará la mecánica
+principal del juego, el combate entre cartas. Para dicho efecto se emplean únicamente
+las "Cartas Básicas", para la demostración de la mecánica.
+
+En cuanto al uso de una base de datos, esta versión del proyecto aún no cuenta con
+la implementación de una. En tanto, su uso está considerado en el diagrama de Clases presentado.
+
+#### Ejecutar del videojuego ####
+El videojuego se encuentra estructurado como:
+* Lógica: "carta.py", "juego.py", "jugador.py", "attack.py"
+* Interfaz: main.py
+
+Para correr el juego, ejecutar en la terminal:
+python main.py
+
+- Diego Gómez.

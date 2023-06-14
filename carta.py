@@ -1,5 +1,5 @@
 import abc
-import ataques.ataque as atq
+from ataques import attack as atq
 
 class Carta(metaclass=abc.ABCMeta):
     '''Abstraccion de una carta en el juego'''
@@ -9,59 +9,46 @@ class Carta(metaclass=abc.ABCMeta):
         self.descripcion = descripcion
 
     @abc.abstractmethod
-    def lanzar(self):
-        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
+    def __str__(self):
+        '''Se indica cual carta fue utilizada.'''
         pass
 
     @abc.abstractmethod
-    def retirar(self):
-        pass
-
-    @abc.abstractmethod
-    def ver_informacion(self):
+    def recibir_danho(self, atacante):
         pass
 
 class CartaBasica(Carta):
     '''Abstraccion del elemento Carta Basica en el juego'''
     
-    def __init__(self, nombre, descripcion, ps, costo_perder, ataque):
+    def __init__(self, nombre, descripcion, ps, costo_perder, ataque, img, img_hover):
         super().__init__(nombre, descripcion)
         self.ps = ps
         self.costo_perder = costo_perder
         self.ps_actual = ps
         self.ataque = ataque
+        self.img = img
+        self.img_hover = img_hover
 
-    def lanzar(self):
-        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
-        print('Lanzando la carta basica ', self.nombre)
-        print('--------------\n')
+    def obtener_pts_ataque(self):
+        '''Obtenemos el valor del ataque de la carta'''
+        return self.ataque.obtener_puntos_ataque()
     
-    def retirar(self, magia):
-        '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
+    def recibir_danho(self, atacante):
+        '''Sobre la salud de nuestra carta, 
+        le quitamos el ataque de la carta atacante'''
+        self.ps_actual -= atacante.obtener_pts_ataque()
+        if self.ps_actual < 0:
+            self.ps_actual = 0
 
-        print(f'La carta basica {self.nombre} fue retirada')
-        return magia - self.costo_perder
+    def nuevo_atacar(self, carta_que_recibe):
+        carta_que_recibe.recibir_danho(self)
 
-    def atacar(self, magia):
-        '''Se indica que ataque fue utilizado en el turno,
-        Los ataques basicos tienen un costo de 2 puntos de magia'''
-
-        print(f'La carta basica {self.nombre} ataca con {self.ataque}')
-        return magia - 2
-
-    def ver_informacion(self):
-        '''Se muestra en pantalla la informacion de la carta'''
-        
-        print('=' * 10)
-        print('Carta Basica: ', self.nombre)
-        print(f'Descripcion: {self.descripcion}')
-        print(f'Ataque: {self.ataque} danho: {self.ataque.obtener_puntos_ataque()}')
-        print('-' * 6)
-        print(f'PS: {self.ps_actual}\tCosto: {self.costo_perder} M')
-        print('=' * 10)        
+    def __str__(self):
+        return 'Carta Basica'      
 
 class CartaMagica(Carta):
-    '''Abstraccion del elemento Carta Magica en el juego'''
+    '''Abstraccion del elemento Carta Magica en el juego.
+    Implementacion a futuro'''
     
     def __init__(self, nombre, descripcion, ps, costo_perder, ataque, reserva_magica):
         super().__init__(nombre, descripcion)
@@ -70,41 +57,47 @@ class CartaMagica(Carta):
         self.ps_actual = ps
         self.ataque = ataque
         self.reserva_magica = reserva_magica
-    
-    def lanzar(self):
-        '''Se indica a los jugadores cual carta fue utilizada en el turno actual'''
-        print('Lanzando la carta magica ', self.nombre)
-        print('--------------\n')
-    
-    def retirar(self, magia):
-        '''Cuando una carta es retirada, el jugador afectado sufre una penalizacion en sus puntos de magia, equivalente a un valor determinado'''
-        print('--------')
-        print(f'La carta magica {self.nombre} fue retirada')
-        print('--------')
-        return magia - self.costo_perder
 
-    def atacar(self, magia):
-        '''Se indica el ataque utilizado por la carta en ese turno, 
-        en caso que una carta cuente con una reserva de magia, esta se utilizara
-        antes que los puntos de magia reales de la carta en cuestion'''
+    def obtener_pts_ataque(self):
+        '''Obtenemos el valor del ataque de la carta'''
+        return self.ataque.obtener_puntos_ataque()
 
-        print(f'La carta magica {self.nombre} ataca con {self.ataque}')
-        if self.reserva_magica > 0:
-            self.reserva_magica - self.costo_perder
-            self.__jugar_atq_especial()
-            return magia
-        return magia - self.costo_perder    # Atacar tiene un costo de magia del jugador.
+    def recibir_danho(self, atacante):
+        '''Sobre la salud de nuestra carta, 
+        le quitamos el valor de ataque de la carta atacante'''
+        self.ps_actual -= atacante.obtener_pts_ataque()
+        if self.ps_actual < 0:
+            self.ps_actual = 0
     
+    def nuevo_atacar(self, carta_que_recibe):
+        '''Efecto de ataque en las cartas'''
+        carta_que_recibe.recibir_danho(self)
+
     def __jugar_atq_especial(self):
-        '''Se indica el uso de la resera de magia con la que cuenta la carta'''
-        print(f'   >> {self.nombre} juega su reserva especial de magia')
+        '''Se indica el uso de la resera de magia con la que cuenta la carta.
+        Implementacion a futuro'''
+        pass
 
-    def ver_informacion(self):
-        '''Se muestra en pantalla la informacion de la carta'''
-        print('=' * 10)
-        print('Carta Magica: ', self.nombre)
-        print(f'Descripcion: {self.descripcion}')
-        print(f'Ataque: {self.ataque} danho: {self.ataque.obtener_puntos_ataque()}')
-        print('-' * 6)
-        print(f'PS: {self.ps_actual}\tCosto: {self.costo_perder} M')
-        print('=' * 10)
+    def __str__(self):
+        return 'Carta Magica'
+
+class CartaAmbulancia(Carta):
+    '''Abstraccion del elemento de carta ambulancia
+    Esta carta cura la salud de una carta'''
+
+    def __init__(self):
+        super().__init__('Ambulancia', 'Permite curar una carta del mazo')
+        self.salud_recuperable = 5
+
+    def sanar(self, segunda_carta):
+        segunda_carta.ps_actual += self.salud_recuperable
+        if segunda_carta.ps_actual >= segunda_carta.ps:
+            segunda_carta.ps_actual = segunda_carta.ps  
+        return f'Carta curada con {self.salud_recuperable}PS'
+
+    def recibir_danho(self, atacante):
+        '''Implementacion futura'''
+        pass
+
+    def __str__(self):
+        return 'Carta Ambulancia'
